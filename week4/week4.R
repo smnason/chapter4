@@ -2,12 +2,20 @@ best <- function(state,outcome) {
     
     setwd("C:\\Users\\Gemma\\Documents\\R\\Projects\\chapter4\\rprog_data_ProgAssignment3-data")
     
+    
     #if (is.null(hospitalData)) {
         
-        hospitalData <<- read.csv("outcome-of-care-measures.csv", stringsAsFactors = FALSE)
+        hospitalData <<- read.csv("outcome-of-care-measures.csv", stringsAsFactors = FALSE, colClasses = "character")
     #}
-
+    
+    hospitalData[, 11] <- as.numeric(hospitalData[, 11])
+    hospitalData[, 17] <- as.numeric(hospitalData[, 17])
+    #hospitalData [hospitalData$Lower.Mortality.Estimate...Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack] <- as.numeric(hospitalData$Lower.Mortality.Estimate...Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack)
+    #hospitalData [hospitalData$Lower.Mortality.Estimate...Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure] <- as.numeric(hospitalData$Lower.Mortality.Estimate...Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure)
+    #hospitalData [hospitalData$Lower.Mortality.Estimate...Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia] <- as.numeric(hospitalData$Lower.Mortality.Estimate...Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia)
+    
     stateRows <<- subset(hospitalData, State == state)
+    
     
     # testOutcome = "No such results"
     
