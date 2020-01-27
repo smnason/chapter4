@@ -1,0 +1,17 @@
+best <- function(state, outcome) {
+    outcomes = read.csv("outcome-of-care-measures.csv")
+    
+    head(outcomes)
+    
+    states <- which(outcomes$State == state)
+    
+    if (length(states) == 0) {
+        return("That state does not exist")
+    }
+    
+    #conditions <- which(outcome$)
+    
+    headrow = colnames(outcomes)
+    
+    headrow
+}
