@@ -14,14 +14,14 @@ best <- function(state,outcome) {
     #hospitalData [hospitalData$Lower.Mortality.Estimate...Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure] <- as.numeric(hospitalData$Lower.Mortality.Estimate...Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure)
     #hospitalData [hospitalData$Lower.Mortality.Estimate...Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia] <- as.numeric(hospitalData$Lower.Mortality.Estimate...Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia)
     
-    stateRows <<- subset(hospitalData, State == state)
+    states <<- unique( hospitalData$State)
     
+    stateRows <<- hospitalData[hospitalData$State == state, c(2,7,11)]
     
     # testOutcome = "No such results"
     
-    if (length(stateRows) == 0) {
-        message("There is no such state")
-        #return()
+    if ((state %in% states) == 0) {
+        stop("There is no such state")
     }
     
     if (outcome == "heart attack") {
