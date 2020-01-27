@@ -26,6 +26,11 @@ best <- function(state,outcome) {
         #        message("heart attack data")
     }
 
+    else if (outcome == "pneumonia") {
+        
+        pickedStateRows <- hospitalData[hospitalData$State == state, c(2, 7, 23)]
+        #        message("heart attack data")
+    }
 #    
 #    else {
 #        testOutcome <<- NULL
