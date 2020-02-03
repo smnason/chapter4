@@ -6,10 +6,8 @@ best <- function(state,outcome) {
 
     states <<- unique( hospitalData$State)
     
-    # testOutcome = "No such results"
-    
     if ((state %in% states) == 0) {
-        stop("There is no such state")
+        stop("invalid state")
     }
     
     stateRows <- data.frame()
@@ -31,11 +29,11 @@ best <- function(state,outcome) {
         pickedStateRows <- hospitalData[hospitalData$State == state, c(2, 7, 23)]
         #        message("heart attack data")
     }
-#    
-#    else {
-#        testOutcome <<- NULL
-#        stop("no such outcomes")
-#    }
+    
+    else {
+        testOutcome <<- NULL
+        stop("invalid outcome")
+    }
     
     colnames(pickedStateRows) <- c("Name",         "State", "Type")
     pickedStateRows[,"Type"] <- as.numeric(pickedStateRows[,"Type"])
