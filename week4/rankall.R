@@ -4,49 +4,40 @@ rankAll <- function(outcome, num = "best") {
     
     hospitalData <<- read.csv("outcome-of-care-measures.csv", colClasses = "character")
     
-    states <<- unique( hospitalData$State)
+    states <<- sort(unique( hospitalData$State))
     
-    #if ((state %in% states) == 0) {
-    #    stop("invalid state")
-    #}
+    stateRows <- data.frame(Name=character(), State=character (), stringsAsFactors = FALSE )
+    VstateRows <- data.frame(Name=character(), State=character (), stringsAsFactors = FALSE )
     
-    stateRows <- data.frame()
     pickedStateRows <- data.frame()
     
     for (state in seq_along(states)) {
     
-        #print(states[state])
-        
         if (outcome == "heart attack") {
             
             pickedStateRows <- hospitalData[hospitalData$State == states[state], c(2, 7, 11)]
         
-            message("heart attack data")
+            #message("heart attack data")
         
         }
     
         if (outcome == "heart failure") {
         
-            pickedStateRows <- hospitalData[hospitalData$State == state, c(2, 7, 17)]
+            pickedStateRows <- hospitalData[hospitalData$State == states[state], c(2, 7, 17)]
         
-            message("heart attack data")
+            #message("heart failure data")
         
         }
     
         if (outcome == "pneumonia") {
         
-            pickedStateRows <- hospitalData[hospitalData$State == state, c(2, 7, 23)]
+            pickedStateRows <- hospitalData[hospitalData$State == states[state], c(2, 7, 23)]
         
-            message("heart attack data")
+            #message("pneumonia data")
         
         }
     
-    
         colnames(pickedStateRows) <- c("Name","State", "Type")
-    
-        #    pickedStateRows <- pickedStateRows[!is.na(as.numeric(as.character(pickedStateRows$Type)))]
-    
-        #pickedStateRows <- pickedStateRows[order(pickedStateRows$Type,pickedStateRows$Name, na.last = NA),]
     
         pickedStateRows[,"Type"] <- as.numeric(pickedStateRows[,"Type"])
     
@@ -56,22 +47,27 @@ rankAll <- function(outcome, num = "best") {
     
         if (num == "best") {
             location = 1
-        
         }
     
-        if (num == "worst") {
+        else if (num == "worst") {
             location = nrow(pickedStateRows)
         }
-    
-        sp <<- pickedStateRows
-    
-        pickedStateRows[location ,]
         
-        #thisHosp <- pickedStateRows[location ,]
+        else {
+            location = num
+        }
+
+        picked <- data.frame(Name=character(), State=character (), stringsAsFactors = FALSE )
+
+        picked = pickedStateRows[location , c(1,2)]
         
-        #print (thisHosp)
+        if (is.na(picked$State)) {
+            picked$State = states[state]
+        }
         
-        print (pickedStateRows[location , ])
-    
+        stateRows <- rbind(stateRows, picked)
+
     }
+    
+    print(stateRows)
 }
